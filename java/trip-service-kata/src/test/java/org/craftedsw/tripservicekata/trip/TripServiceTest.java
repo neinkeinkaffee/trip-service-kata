@@ -18,7 +18,7 @@ public class TripServiceTest {
     @Test
     void shouldThrowExceptionIfUserIsNotLoggedIn() {
         loggedUser = null;
-        assertThrows(UserNotLoggedInException.class, () -> tripService.getTripsByUser(loggedUser));
+        assertThrows(UserNotLoggedInException.class, () -> tripService.findFriendTrips(loggedUser));
     }
 
     @Test
@@ -26,7 +26,7 @@ public class TripServiceTest {
         User queriedUser = new User();
         queriedUser.addTrip(new Trip());
 
-        List<Trip> searchResult = tripService.getTripsByUser(queriedUser);
+        List<Trip> searchResult = tripService.findFriendTrips(queriedUser);
 
         assertThat(searchResult, IsEmptyCollection.empty());
     }
@@ -37,7 +37,7 @@ public class TripServiceTest {
         queriedUser.addTrip(new Trip());
         queriedUser.addFriend(loggedUser);
 
-        List<Trip> searchResult = tripService.getTripsByUser(queriedUser);
+        List<Trip> searchResult = tripService.findFriendTrips(queriedUser);
 
         assertEquals(searchResult, queriedUser.trips());
     }
@@ -50,8 +50,8 @@ public class TripServiceTest {
             }
 
             @Override
-            protected List<Trip> findTripsByUser(User user) {
-                return user.trips();
+            protected List<Trip> findTripsForFriend(User friend) {
+                return friend.trips();
             }
         };
     }
