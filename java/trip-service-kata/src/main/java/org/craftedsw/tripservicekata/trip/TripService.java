@@ -10,6 +10,9 @@ import org.craftedsw.tripservicekata.user.UserSession;
 public class TripService {
 
 	public List<Trip> findFriendTrips(User Friend) throws UserNotLoggedInException {
+		// Sandro Mancuso: check whether user is logged in should be done by client (e.g. controller)
+		// TripService should receive the loggedUser as a parameter
+		// See https://www.codurance.com/publications/2011/07/18/testing-legacy-hard-wired-dependencies_17
 		User loggedUser = loggedUser();
 		ensureUserIsLoggedIn(loggedUser);
 		return loggedUser.isFriendsWith(Friend) ? findTripsForFriend(Friend) : Collections.emptyList();
